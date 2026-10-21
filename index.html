@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Letter For You</title>
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #f3eee5;
+  color: #493e34;
+  font-family: Georgia, "Times New Roman", serif;
+  text-align: center;
+  padding: 35px 16px;
+}
+
+h1 { font-weight: normal; font-size: 30px; }
+.intro { color: #88796a; font-size: 15px; }
+
+.scene {
+  width: min(100%, 380px);
+  margin: 65px auto 20px;
+  perspective: 1000px;
+}
+
+.envelope {
+  position: relative;
+  height: 225px;
+  background: #d9c7ad;
+  border-radius: 4px;
+  box-shadow: 0 15px 30px #65513a25;
+}
+
+.letter {
+  position: absolute;
+  z-index: 2;
+  left: 6%;
+  width: 88%;
+  top: 10px;
+  height: 205px;
+  background: #fffdf7;
+  padding: 20px;
+  text-align: left;
+  overflow: hidden;
+  border: 1px solid #e5dac9;
+  transition: transform 1s ease, height 1s ease;
+}
+
+.letter h2 {
+  font-weight: normal;
+  font-size: 22px;
+  text-align: center;
+  margin: 4px 0 15px;
+}
+
+.message {
+  white-space: pre-wrap;
+  overflow-y: auto;
+  height: 135px;
+  line-height: 1.8;
+  font-size: 15px;
+}
+
+.flap {
+  position: absolute;
+  z-index: 5;
+  inset: 0 0 auto;
+  height: 62%;
+  background: #e5d5bd;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top;
+  transition: transform .7s ease;
+}
+
+.pocket {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  background: #d2bea1;
+  clip-path: polygon(0 0, 50% 55%, 100% 0, 100% 100%, 0 100%);
+}
+
+.name {
+  position: absolute;
+  z-index: 6;
+  top: 43%;
+  left: 0;
+  right: 0;
+  font-size: 22px;
+  padding: 0 8px;
+}
+
+.name small {
+  display: block;
+  font: 10px Arial, sans-serif;
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+  color: #806c55;
+}
+
+.seal {
+  position: absolute;
+  z-index: 7;
+  top: 56%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #984f49;
+  color: white;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+
+.envelope.open .flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+.envelope.open .letter {
+  transform: translateY(-75px);
+  height: 350px;
+  z-index: 8;
+}
+
+.envelope.open .message { height: 260px; }
+.envelope.open .name,
+.envelope.open .seal { opacity: 0; }
+
+.scene.opened { margin-bottom: 150px; }
+
+button {
+  background: #55473b;
+  color: white;
+  border: 0;
+  padding: 13px 22px;
+  border-radius: 4px;
+  font-size: 15px;
+  margin: 8px;
+  cursor: pointer;
+}
+
+#close { display: none; }
+.hint { color: #88796a; font: 13px Arial, sans-serif; }
+</style>
+</head>
+<body>
+
+<h1>A letter, just for you.</h1>
+<p class="intro">Someone has something to tell you...</p>
+
+<div class="scene" id="scene">
+  <div class="envelope" id="envelope">
+
+    <div class="letter">
+      <h2 id="greeting">Dear you,</h2>
+      <div class="message" id="message">I wanted to give you something a little more personal than an ordinary message.
+
+Take your time reading this. Replace this text with your own letter before publishing.
+
+With love,
+Your name</div>
+    </div>
+
+    <div class="name">
+      <small>ESPECIALLY FOR</small>
+      <span id="recipient">Someone Special</span>
+    </div>
+
+    <div class="pocket"></div>
+    <div class="flap"></div>
+    <div class="seal">✉</div>
+
+  </div>
+</div>
+
+<p class="hint" id="hint">Tap below to open your letter.</p>
+<button id="open" onclick="openLetter()">Open the envelope</button>
+<button id="close" onclick="closeLetter()">Close the envelope</button>
+
+<script>
+function openLetter() {
+  document.getElementById('envelope').classList.add('open');
+  document.getElementById('scene').classList.add('opened');
+  document.getElementById('open').style.display = 'none';
+  document.getElementById('close').style.display = 'inline-block';
+  document.getElementById('hint').textContent =
+    'Your letter is open. Scroll inside the paper to read.';
+  setTimeout(() => {
+    document.getElementById('scene').scrollIntoView({
+      behavior: 'smooth', block: 'center'
+    });
+  }, 500);
+}
+
+function closeLetter() {
+  document.getElementById('envelope').classList.remove('open');
+  document.getElementById('scene').classList.remove('opened');
+  document.getElementById('open').style.display = 'inline-block';
+  document.getElementById('close').style.display = 'none';
+  document.getElementById('hint').textContent =
+    'Tap below to open your letter.';
+}
+</script>
+
+</body>
+</html>
